@@ -1,6 +1,4 @@
 import random
-import math
-
 
 def first_n_primes(n):
     """
@@ -78,6 +76,9 @@ def miller_rabin(candidate):
     return True
 
 def generate_prime(n):
+    """
+    Generates n-bit prime.
+    """
     while True:
         candidate = low_level_prime_test(n)
         if not miller_rabin(candidate):
