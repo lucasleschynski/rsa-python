@@ -45,6 +45,9 @@ class KeyGenerator:
 
     def generate_private_key(self, totient):
         p = self.extended_euclidean(self.e, totient)
+        while p < 0:
+            p += totient
+            print(p, totient)
         return p
 
     def generate_key(self):
