@@ -1,5 +1,5 @@
-from primegenerator import PrimeGenerator
-from keygenerator import KeyGenerator
+from prime_generator import PrimeGenerator
+from key_generator import KeyGenerator
 
 
 def main():

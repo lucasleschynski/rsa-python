@@ -5,7 +5,7 @@ class PrimeGenerator:
     def __init__(self):
         pass
 
-    def random_n_bits(self, length):
+    def random_n_bits(self, length: int) -> int:
         """
         Generate random n-bit number.
 
@@ -20,7 +20,7 @@ class PrimeGenerator:
         p |= (1 << length - 1) | 1
         return p
 
-    def miller_rabin(self, n, k):
+    def miller_rabin(self, n: int, k: int) -> bool:
         """
         Miller-Rabin primality test.
         Args:
@@ -55,7 +55,7 @@ class PrimeGenerator:
                 return False
         return True
 
-    def generate_prime(self, n):
+    def generate_prime(self, n: int) -> int:
         """
         Generates n-bit prime.
         """
@@ -67,7 +67,7 @@ class PrimeGenerator:
                 # print(f"{n} bit prime is: {candidate}")
                 return candidate
 
-    def first_n_primes(self, n):
+    def first_n_primes(self, n: int) -> int:
         """
         Generates first n prime numbers.
         (Not actually used)
