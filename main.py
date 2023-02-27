@@ -1,10 +1,10 @@
 from primegenerator import PrimeGenerator
+from keygenerator import KeyGenerator
 
 
 def main():
     pg = PrimeGenerator()
-    # print(pg.first_n_primes(100))
-    print(pg.generate_prime_candidate(256))
+    kg = KeyGenerator()
 
 
 if __name__ == "__main__":

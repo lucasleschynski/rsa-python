@@ -3,8 +3,7 @@ import random
 
 class PrimeGenerator:
     def __init__(self):
-        self.first_primes_list = self.first_n_primes(100)
-        print(self.random_n_bits(32))
+        pass
 
     def random_n_bits(self, length):
         """
@@ -65,7 +64,7 @@ class PrimeGenerator:
             if not self.miller_rabin(candidate, 40):
                 continue
             else:
-                print(f"{n} bit prime is: {candidate}")
+                # print(f"{n} bit prime is: {candidate}")
                 return candidate
 
     def first_n_primes(self, n):
