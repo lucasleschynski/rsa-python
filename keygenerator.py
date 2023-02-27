@@ -13,7 +13,6 @@ class KeyGenerator:
         self.p = pg.generate_prime(nbits)
         self.q = pg.generate_prime(nbits)
         self.n = self.p * self.q
-        # self.n |= (1 << n.bit_length() - 1) | 1
         print(
             f"Generated p: {self.p}\n\nGenerated q: {self.q}\n\nGenerated n: {self.n}\n    N's bit length: {self.n.bit_length()}"
         )
