@@ -1,20 +1,21 @@
-import primegen
+import primegenerator as pg
 
 bits = 8
-primegen.generate_prime(bits)
+pg.generate_prime(bits)
 
-p = primegen.generate_prime(bits)
-q = primegen.generate_prime(bits)
+p = pg.generate_prime(bits)
+q = pg.generate_prime(bits)
 
-n = p*q
+n = p * q
+
 
 def carmichael_totient(p, q):
     def gcd(a, b):
-        while(b):
-            a, b = b, a%b
+        while b:
+            a, b = b, a % b
         return a
-    def lcm(a, b):
-        return (a*b)/gcd(p, q)
-    
-    return lcm(p-1, q-1)
 
+    def lcm(a, b):
+        return (a * b) / gcd(p, q)
+
+    return lcm(p - 1, q - 1)
