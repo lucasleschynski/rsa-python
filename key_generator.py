@@ -11,10 +11,7 @@ class KeyGenerator:
 
     def generate_primes(self, nbits: int) -> tuple[int, int, int]:
         """Generates primes p, q, n
-
-
-        Args:
-            nbits (int): Defines number of bits for p and q (bit_length(n) ~= 2 * n_bits)
+        p and q both have (nbits) bits
 
         Returns:
             tuple[int, int, int]: p, q, and n
@@ -29,10 +26,6 @@ class KeyGenerator:
 
     def carmichael_totient(self, p: int, q: int) -> int:
         """Performs the carmichael totient function (lambda) on n, or p * q
-
-        Args:
-            p (int)
-            q (int)
 
         Returns:
             int: lambda(n)
@@ -52,10 +45,6 @@ class KeyGenerator:
         """Solves Bézout's identity {ax + by = gcd(a,b)}
         where a = e and b = lambda(n) = carmichael_totient(p, q).
         This is another form of d * e = 1 (mod lambda(n)), so solving for x gives p.
-
-        Args:
-            a (int)
-            b (int)
 
         Returns:
             int: Bézout x coefficient, used as the private key
@@ -83,9 +72,6 @@ class KeyGenerator:
         Gets d value, then adds totient until d > 0.
         d * e = 1 (mod lambda(n) still holdswhen adding a multiple of the totient.
 
-        Args:
-            totient (int): _description_
-
         Returns:
             int: _description_
         """
@@ -97,7 +83,6 @@ class KeyGenerator:
 
     def generate_key(self) -> tuple[tuple[int, int], int]:
         """Generates whole keypair (public and private)
-
 
         Returns:
             tuple[tuple[int, int], int]: (n, e), d
