@@ -1,15 +1,13 @@
 from primegenerator import PrimeGenerator
-from primegenerator import PrimeGenerator
 
 
 class KeyGenerator:
-    def __init__(self):
+    def __init__(self, nbits):
         self.pg = PrimeGenerator()
-        # self.p, self.q = None, None
-        # self.n = self.generate_n(64)
-        self.e = 2**16 + 1  # 65537
-        self.totient = self.carmichael_totient(self.p, self.q)
-        self.d = self.extended_euclidean(self.e, self.totient)
+        self.nbits = nbits
+        self.e = 2**16 + 1
+
+        pubkey, privkey = self.generate_key()
 
     def generate_primes(self, nbits):
         p = self.pg.generate_prime(nbits)
@@ -40,12 +38,17 @@ class KeyGenerator:
 
         return prevx
 
-    def generate_public_key(self, nbits):
-        p, q, n = self.generate_primes(nbits)
-        e = 2**16 + 1
+    def generate_public_key(self):
+        p, q, n = self.generate_primes(self.nbits)
         totient = self.carmichael_totient(p, q)
-        return n, e
+        return n, self.e, totient
 
-    def generate_private_key(self, e, totient):
-        p = self.extended_euclidean(e, totient)
+    def generate_private_key(self, totient):
+        p = self.extended_euclidean(self.e, totient)
         return p
+
+    def generate_key(self):
+        n, e, totient = self.generate_public_key()
+        d = self.generate_private_key(totient)
+        print(f"\n\nGenerated n: {n}\n\nGenerated e: {e}\n\nGenerated d: {d}")
+        return (n, e), d

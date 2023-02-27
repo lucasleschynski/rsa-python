@@ -4,7 +4,7 @@ from keygenerator import KeyGenerator
 
 def main():
     pg = PrimeGenerator()
-    kg = KeyGenerator()
+    kg = KeyGenerator(64)
 
 
 if __name__ == "__main__":
