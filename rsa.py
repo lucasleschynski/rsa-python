@@ -1,6 +1,5 @@
 from key_generator import KeyGenerator
 from codec import EncryptingCodec
-from key_generator import KeyGenerator
 from key import Key
 
 
@@ -12,4 +11,8 @@ class RSA:
     """
 
     def __init__(self) -> None:
+        self.key_generator = KeyGenerator()
+        self.message_manager = EncryptingCodec()
+
+    def encrypt_message(self, message: str):
         pass

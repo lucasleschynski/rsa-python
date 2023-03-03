@@ -1,10 +1,11 @@
-from prime_generator import PrimeGenerator
+from utils.prime_generator import PrimeGenerator
 from key_generator import KeyGenerator
 
 
 def main():
     pg = PrimeGenerator()
-    kg = KeyGenerator(64)
+    kg = KeyGenerator()
+    kg.generate_key(1024)
 
 
 if __name__ == "__main__":

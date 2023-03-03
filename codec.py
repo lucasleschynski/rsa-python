@@ -1,4 +1,5 @@
 from key_generator import KeyGenerator
+from key import Key, PublicKey, PrivateKey
 
 
 class EncryptingCodec:
@@ -7,10 +8,10 @@ class EncryptingCodec:
     """
 
     def __init__(self):
-        self.keygen = KeyGenerator()
-
-    def encrypt_message(self, sender_pubkey, sender_privkey, recipient_pubkey):
         pass
 
-    def decrypt_message(self, sender_pubkey, recipient_pubkey):
+    def encrypt_message(self, sender_key: Key, recipient_public_key: PublicKey):
+        pass
+
+    def decrypt_message(self, sender_key: Key, recipient_public_key: PublicKey):
         pass
