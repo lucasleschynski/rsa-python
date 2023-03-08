@@ -5,9 +5,7 @@ PrivateKey = int
 
 
 class Key:
-    def __init__(
-        self, public_key: PublicKey, private_key: PrivateKey, nbits: int
-    ) -> None:
+    def __init__(self, public_key: PublicKey, private_key: PrivateKey, nbits: int):
         """This class represents a keypair (public + private key) as a single object
 
         Args:

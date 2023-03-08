@@ -1,17 +1,37 @@
+from typing import Any
 from key_generator import KeyGenerator
 from key import Key, PublicKey, PrivateKey
+from utils.modular_exponentiation import mod_exp
 
 
 class EncryptingCodec:
     """
-    This class is used for both encrypting and decrypting messages.
+    This is a static class that is used for handling message encryption/decryption
     """
 
-    def __init__(self):
-        pass
+    @staticmethod
+    def encrypt_message(message: int, recipient_public_key: PublicKey) -> int:
+        """Computes ciphertext c such that c and m^e are congruent modulo n
 
-    def encrypt_message(self, sender_key: Key, recipient_public_key: PublicKey):
-        pass
+        Args:
+            message (int): message ciphertext
+            recipient_public_key (PublicKey): Recipient's public key
 
-    def decrypt_message(self, sender_key: Key, recipient_public_key: PublicKey):
-        pass
+        Returns:
+            int: Encrypted message
+        """
+        n = recipient_public_key[0]
+        e = recipient_public_key[1]
+        m = message
+        ciphertext = mod_exp(m, e, n)
+
+        if ciphertext < n:
+            return ciphertext
+        else:
+            raise ValueError("ciphertext c is greater than public key n")
+
+    @staticmethod
+    def decrypt_message(ciphertext: int, recipient_key: Key) -> Any:
+        d = recipient_key.private
+        n = recipient_key.public_key[0]
+        return mod_exp(ciphertext, d, n)

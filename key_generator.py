@@ -1,5 +1,5 @@
 from utils.prime_generator import PrimeGenerator
-from key import Key
+from key import Key, PublicKey, PrivateKey
 
 
 class KeyGenerator:
@@ -69,17 +69,19 @@ class KeyGenerator:
 
         return prevx
 
-    def generate_public_key(self, nbits) -> tuple[int, int, int]:
+    def generate_public_key(self, nbits) -> tuple[PublicKey, int]:
         """Public key generator
 
         Returns:
             tuple[int, int, int]: n, e, and lambda(n) (or totient)
         """
         p, q, n = self.generate_primes(nbits)
-        totient = self.carmichael_totient(p, q)
-        return n, self.e, totient
+        totient = self.carmichael_totient(
+            p, q
+        )  # TODO: Remove the need for returning totient with public key
+        return (n, self.e), totient
 
-    def generate_private_key(self, totient: int) -> int:
+    def generate_private_key(self, totient: int) -> PrivateKey:
         """Private key generator
         Gets d value, then adds totient until d > 0.
         d * e = 1 (mod lambda(n) still holdswhen adding a multiple of the totient.
@@ -99,7 +101,9 @@ class KeyGenerator:
         Returns:
             tuple[tuple[int, int], int]: (n, e), d
         """
-        n, e, totient = self.generate_public_key(nbits)
-        d = self.generate_private_key(totient)
-        print(f"\n\nGenerated n: {n}\n\nGenerated e: {e}\n\nGenerated d: {d}")
-        return Key((n, e), d, nbits)
+        public_key, totient = self.generate_public_key(nbits)
+        private_key = self.generate_private_key(totient)
+        print(
+            f"\n\nGenerated n: {public_key[0]}\n\nGenerated e: {public_key[1]}\n\nGenerated d: {private_key}"
+        )
+        return Key(public_key, private_key, nbits)
