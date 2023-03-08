@@ -27,14 +27,14 @@ class KeyGenerator:
 
         # TODO: Ensure that n is exactly n bits, (i.e. if p/q are 64 bits n is 128 not 127)
         p, q, n = 0, 0, 0
-        while n.bit_length() != nbits:
+        while n.bit_length() != nbits and p == q:
             p = self.pg.generate_prime(primebits)
             q = self.pg.generate_prime(primebits)
             n = p * q
         print(
             f"Generated p: {p}\n\nGenerated q: {q}\n\nGenerated n: {n}\n    N's bit length: {n.bit_length()}"
         )
-        return p, q, n
+        return int(p), int(q), int(n)
 
     def carmichael_totient(self, p: int, q: int) -> int:
         """Performs the carmichael totient function (lambda) on n, or p * q
@@ -49,9 +49,42 @@ class KeyGenerator:
             return a
 
         def lcm(a, b):
-            return abs(a * b) / gcd(p, q)
+            return (a * b) // gcd(a, b)
 
         return lcm(p - 1, q - 1)
+
+    # def carmichael_totient(self, p, q):
+    #     n = int(p * q)
+    #     k = 2
+    #     a = 1
+    #     alist = []
+
+    #     def gcd(a, b):
+    #         while b:
+    #             a, b = b, a % b
+    #         return a
+
+    #     while not ((gcd(a, n)) == 1):
+    #         a = a + 1
+
+    #     while ((gcd(a, n)) == 1) & (a <= n):
+    #         alist.append(a)
+    #         a = a + 1
+    #         while not ((gcd(a, n)) == 1):
+    #             a = a + 1
+
+    #     timer = len(alist)
+    #     while timer >= 0:
+    #         for a in alist:
+    #             if (a**k) % n == 1:
+    #                 timer = timer - 1
+    #                 if timer < 0:
+    #                     break
+    #                 pass
+    #             else:
+    #                 timer = len(alist)
+    #                 k = k + 1
+    #     return k
 
     def extended_euclidean(self, a: int, b: int) -> int:
         """Solves Bézout's identity {ax + by = gcd(a,b)}
@@ -93,7 +126,7 @@ class KeyGenerator:
         while d < 0:
             d += totient
             # d, totient)
-        return d
+        return int(d)
 
     def generate_key(self, nbits) -> Key:
         """Generates whole keypair (public and private)
@@ -102,8 +135,9 @@ class KeyGenerator:
             tuple[tuple[int, int], int]: (n, e), d
         """
         public_key, totient = self.generate_public_key(nbits)
+        print(f"Totient: {totient}")
         private_key = self.generate_private_key(totient)
         print(
             f"\n\nGenerated n: {public_key[0]}\n\nGenerated e: {public_key[1]}\n\nGenerated d: {private_key}"
         )
-        return Key(public_key, private_key, nbits)
+        return Key(public_key, int(private_key), nbits)

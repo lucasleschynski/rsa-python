@@ -1,20 +1,23 @@
-def mod_exp(base: int, exponent: int, modulus: int):
+def mod_exp(b: int, e: int, m: int) -> int:
     """Fast modular exponentiation algorithm.
-       Computes c when c and b^e are congruent modulo n
+       Computes r when r and b^e are congruent modulo n
     Args:
         base (int): base of of RHS
         exponent (int): exponent of RHS
         modulus (int): modulus of congruence
 
     Returns:
-        _type_: _description_
+        int: result of modular exponentiation
     """
-    if modulus == 1:
-        return 0
-    c = 1
-    for e_prime in range(0, exponent):
-        c = (c * base) % modulus
-    return c
+    r = 1
+    if 1 & e:
+        r = b
+    while e:
+        e >>= 1
+        b = (b * b) % m
+        if e & 1:
+            r = (r * b) % m
+    return r
 
 
 if __name__ == "__main__":
