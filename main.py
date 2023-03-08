@@ -7,10 +7,11 @@ from codec import EncryptingCodec as codec
 def main():
     pg = PrimeGenerator()
     kg = KeyGenerator()
-    alice = kg.generate_key(16)
-    bob = kg.generate_key(16)
+    alice = kg.generate_key(1024)
+    bob = kg.generate_key(1024)
 
-    message = 12345
+    message = 123456789123456789
+    print(f"Message is {message.bit_length()} bits")
 
     c = codec.encrypt_message(message, alice.public_key)
     print(f"Encrypted message: {c}")
@@ -19,25 +20,5 @@ def main():
     print(f"Decrypted message: {m}")
 
 
-def carmichael_totient(p: int, q: int) -> int:
-    """Performs the carmichael totient function (lambda) on n, or p * q
-
-    Returns:
-        int: lambda(n)
-    """
-
-    def gcd(a, b):
-        while a > 0:
-            b = b % a
-            (a, b) = (b, a)
-        return b
-
-    def lcm(a, b):
-        return (a * b) // gcd(a, b)
-
-    return lcm(p - 1, q - 1)
-
-
 if __name__ == "__main__":
     main()
-    # print(carmichael_totient(13, 13))

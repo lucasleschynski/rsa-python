@@ -1,4 +1,5 @@
 from utils.prime_generator import PrimeGenerator
+from utils.helpers import mod_exp, carmichael_totient, extended_euclidean
 from key import Key, PublicKey, PrivateKey
 
 
@@ -36,72 +37,6 @@ class KeyGenerator:
         )
         return int(p), int(q), int(n)
 
-    def carmichael_totient(self, p: int, q: int) -> int:
-        """Performs the carmichael totient function (lambda) on n, or p * q
-
-        Returns:
-            int: lambda(n)
-        """
-
-        def gcd(a, b):
-            while b:
-                a, b = b, a % b
-            return a
-
-        def lcm(a, b):
-            return (a * b) // gcd(a, b)
-
-        return lcm(p - 1, q - 1)
-
-    # def carmichael_totient(self, p, q):
-    #     n = int(p * q)
-    #     k = 2
-    #     a = 1
-    #     alist = []
-
-    #     def gcd(a, b):
-    #         while b:
-    #             a, b = b, a % b
-    #         return a
-
-    #     while not ((gcd(a, n)) == 1):
-    #         a = a + 1
-
-    #     while ((gcd(a, n)) == 1) & (a <= n):
-    #         alist.append(a)
-    #         a = a + 1
-    #         while not ((gcd(a, n)) == 1):
-    #             a = a + 1
-
-    #     timer = len(alist)
-    #     while timer >= 0:
-    #         for a in alist:
-    #             if (a**k) % n == 1:
-    #                 timer = timer - 1
-    #                 if timer < 0:
-    #                     break
-    #                 pass
-    #             else:
-    #                 timer = len(alist)
-    #                 k = k + 1
-    #     return k
-
-    def extended_euclidean(self, a: int, b: int) -> int:
-        """Solves Bézout's identity {ax + by = gcd(a,b)}
-        where a = e and b = lambda(n) = carmichael_totient(p, q).
-        This is another form of d * e = 1 (mod lambda(n)), so solving for x gives p.
-
-        Returns:
-            int: Bézout x coefficient, used as the private key
-        """
-        prevx, x = 1, 0
-        while b:
-            q = a // b
-            x, prevx = prevx - q * x, x
-            a, b = b, a % b
-
-        return prevx
-
     def generate_public_key(self, nbits) -> tuple[PublicKey, int]:
         """Public key generator
 
@@ -109,7 +44,7 @@ class KeyGenerator:
             tuple[int, int, int]: n, e, and lambda(n) (or totient)
         """
         p, q, n = self.generate_primes(nbits)
-        totient = self.carmichael_totient(
+        totient = carmichael_totient(
             p, q
         )  # TODO: Remove the need for returning totient with public key
         return (n, self.e), totient
@@ -122,10 +57,9 @@ class KeyGenerator:
         Returns:
             int: _description_
         """
-        d = self.extended_euclidean(self.e, totient)
+        d = extended_euclidean(self.e, totient)
         while d < 0:
             d += totient
-            # d, totient)
         return int(d)
 
     def generate_key(self, nbits) -> Key:
@@ -134,6 +68,7 @@ class KeyGenerator:
         Returns:
             tuple[tuple[int, int], int]: (n, e), d
         """
+        # TODO: Clean up the variables names and references here
         public_key, totient = self.generate_public_key(nbits)
         print(f"Totient: {totient}")
         private_key = self.generate_private_key(totient)

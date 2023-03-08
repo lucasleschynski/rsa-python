@@ -1,7 +1,6 @@
 from typing import Any
-from key_generator import KeyGenerator
 from key import Key, PublicKey, PrivateKey
-from utils.modular_exponentiation import mod_exp
+from utils.helpers import mod_exp
 
 
 class EncryptingCodec:
@@ -32,6 +31,15 @@ class EncryptingCodec:
 
     @staticmethod
     def decrypt_message(ciphertext: int, recipient_key: Key) -> Any:
+        """Decrypts ciphertext to produce original message.
+
+        Args:
+            ciphertext (int): ciphertext to decrypt
+            recipient_key (Key): message recipient key for decryption
+
+        Returns:
+            Any: Decrypted message in desired format
+        """
         d = recipient_key.private
         print(f"d in decode: {int(d)}")
         d = int(d)
