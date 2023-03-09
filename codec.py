@@ -47,13 +47,30 @@ class EncryptingCodec:
         return mod_exp(ciphertext, d, n)
 
     @staticmethod
-    def encode_message(message: str):
+    def encode_message(message: str) -> int:
+        """Encodes string as integer for encryption
+           Converts string to bytes, then encodes bytes as integer using int.from_bytes()
+
+        Args:
+            message (str): String to be encrypted
+
+        Returns:
+            int: Message encoded as int
+        """
         bytes = message.encode("utf-8")
         encoded = int.from_bytes(bytes, "little")
         return encoded
 
     @staticmethod
-    def decode_message(encoded_message: int):
+    def decode_message(encoded_message: int) -> str:
+        """Decodes message back into string format
+
+        Args:
+            encoded_message (int): integer representation of decrypted ciphertext
+
+        Returns:
+            str: Decrypted message
+        """
         decoded_bytes = encoded_message.to_bytes(
             (encoded_message.bit_length() + 7) // 8, "little"
         )

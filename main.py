@@ -6,6 +6,7 @@ from codec import EncryptingCodec as codec
 
 
 def main():
+    # TODO: implement threading for key generation
     pg = PrimeGenerator()
     kg = KeyGenerator()
     alice = kg.generate_key(2048)
