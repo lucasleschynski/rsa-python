@@ -41,7 +41,21 @@ class EncryptingCodec:
             Any: Decrypted message in desired format
         """
         d = recipient_key.private
-        print(f"d in decode: {int(d)}")
+        # print(f"d in decode: {int(d)}")
         d = int(d)
         n = recipient_key.public_key[0]
         return mod_exp(ciphertext, d, n)
+
+    @staticmethod
+    def encode_message(message: str):
+        bytes = message.encode("utf-8")
+        encoded = int.from_bytes(bytes, "little")
+        return encoded
+
+    @staticmethod
+    def decode_message(encoded_message: int):
+        decoded_bytes = encoded_message.to_bytes(
+            (encoded_message.bit_length() + 7) // 8, "little"
+        )
+        decoded_string = decoded_bytes.decode("utf-8")
+        return decoded_string

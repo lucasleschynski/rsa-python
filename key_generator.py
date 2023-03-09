@@ -27,14 +27,15 @@ class KeyGenerator:
         primebits = (int)(nbits / 2)
 
         # TODO: Ensure that n is exactly n bits, (i.e. if p/q are 64 bits n is 128 not 127)
+        #       (IN A CLEAN WAY)
         p, q, n = 0, 0, 0
         while n.bit_length() != nbits and p == q:
             p = self.pg.generate_prime(primebits)
             q = self.pg.generate_prime(primebits)
             n = p * q
-        print(
-            f"Generated p: {p}\n\nGenerated q: {q}\n\nGenerated n: {n}\n    N's bit length: {n.bit_length()}"
-        )
+        # print(
+        #     f"Generated p: {p}\n\nGenerated q: {q}\n\nGenerated n: {n}\n    N's bit length: {n.bit_length()}"
+        # )
         return int(p), int(q), int(n)
 
     def generate_public_key(self, nbits) -> tuple[PublicKey, int]:
@@ -68,11 +69,12 @@ class KeyGenerator:
         Returns:
             tuple[tuple[int, int], int]: (n, e), d
         """
+        print(f"Generating {nbits} bit key...")
         # TODO: Clean up the variables names and references here
         public_key, totient = self.generate_public_key(nbits)
-        print(f"Totient: {totient}")
+        # print(f"Totient: {totient}")
         private_key = self.generate_private_key(totient)
-        print(
-            f"\n\nGenerated n: {public_key[0]}\n\nGenerated e: {public_key[1]}\n\nGenerated d: {private_key}"
-        )
+        # print(
+        #     f"\n\nGenerated n: {public_key[0]}\n\nGenerated e: {public_key[1]}\n\nGenerated d: {private_key}"
+        # )
         return Key(public_key, int(private_key), nbits)
