@@ -76,3 +76,15 @@ class EncryptingCodec:
         )
         decoded_string = decoded_bytes.decode("utf-8")
         return decoded_string
+
+    @staticmethod
+    def sign_message(message: bytes, signer_key: Key, n: int) -> int:
+        h = hash(message)
+        d = signer_key.private
+        e = signer_key.public_key[1]
+        signature = mod_exp(h, (d * e), n)
+        return signature
+
+    @staticmethod
+    def verify_message() -> bool:
+        pass
