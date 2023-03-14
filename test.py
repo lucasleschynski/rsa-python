@@ -1,32 +1,24 @@
 import time
 import sys
-
 import threading
+from key_generator import KeyGenerator
 
 
-def animate():
-    print("Loading:")
-    # animation = ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
-    animation = [
-        "[■□□□□□□□□□]",
-        "[■■□□□□□□□□]",
-        "[■■■□□□□□□□]",
-        "[■■■■□□□□□□]",
-        "[■■■■■□□□□□]",
-        "[■■■■■■□□□□]",
-        "[■■■■■■■□□□]",
-        "[■■■■■■■■□□]",
-        "[■■■■■■■■■□]",
-        "[■■■■■■■■■■]",
-    ]
+def generate_key():
+    return KeyGenerator().generate_key(2048)
 
-    for i in range(len(animation)):
-        time.sleep(0.2)
-        sys.stdout.write("\r" + animation[i % len(animation)])
+
+def animated_loading():
+    chars = "/—\|"
+    chars = "⢿⣻⣽⣾⣷⣯⣟⡿"
+    for char in chars:
+        sys.stdout.write("\r" + char)
+        time.sleep(0.1)
         sys.stdout.flush()
 
-    print("\n")
 
-
-t = threading.Thread(target=animate)
+t = threading.Thread(target=generate_key)
 t.start()
+
+while t.is_alive():
+    animated_loading()
