@@ -1,3 +1,7 @@
+import time
+import sys
+
+
 def mod_exp(b: int, e: int, m: int) -> int:
     """Fast modular exponentiation algorithm.
        Computes r when r and b^e are congruent modulo n
@@ -55,5 +59,14 @@ def extended_euclidean(a: int, b: int) -> int:
     return prevx
 
 
+def animated_loading():
+    chars = "/—\|"
+    chars = "⢿⣻⣽⣾⣷⣯⣟⡿"
+    for char in chars:
+        sys.stdout.write("\r" + char)
+        time.sleep(0.1)
+        sys.stdout.flush()
+
+
 if __name__ == "__main__":
-    print(mod_exp(4, 13, 497))
+    pass

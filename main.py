@@ -1,5 +1,3 @@
-import functools
-import time
 from utils.prime_generator import PrimeGenerator
 from key_generator import KeyGenerator
 from codec import EncryptingCodec as codec
@@ -26,28 +24,5 @@ def main():
     print(f"Decoded message: {decrypted}")
 
 
-# TODO: Implement with threading while key is generated
-def animate():
-    bar = [
-        " [=     ]",
-        " [ =    ]",
-        " [  =   ]",
-        " [   =  ]",
-        " [    = ]",
-        " [     =]",
-        " [    = ]",
-        " [   =  ]",
-        " [  =   ]",
-        " [ =    ]",
-    ]
-    i = 0
-
-    while True:
-        print(bar[i % len(bar)], end="\r")
-        time.sleep(0.2)
-        i += 1
-
-
 if __name__ == "__main__":
     main()
-    # animate()
